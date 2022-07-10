@@ -592,7 +592,7 @@ impl EthereumAdapter {
                         .from_err::<Error>()
                         .and_then(move |block| {
                             block.ok_or_else(|| {
-                                anyhow::anyhow!("Ethereum node did not find block {:?}", hash)
+                                anyhow::anyhow!("---------- ---------- ---------- ---------- Ethereum node did not find block {:?}", hash)
                             })
                         })
                 })
@@ -628,7 +628,7 @@ impl EthereumAdapter {
                         .from_err::<Error>()
                         .and_then(move |block| {
                             block.ok_or_else(|| {
-                                anyhow!("Ethereum node did not find block {:?}", block_num)
+                                anyhow!("---------- ---------- ---------- Ethereum node did not find block {:?}", block_num)
                             })
                         })
                 })
