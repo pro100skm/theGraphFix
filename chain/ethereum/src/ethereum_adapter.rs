@@ -33,6 +33,8 @@ use graph::{
 use web3::api::Web3;
 use web3::transports::batch::Batch;
 use web3::types::Filter;
+use graph::prelude::slog;
+use graph::prelude::slog::{b, record_static};
 
 use crate::{
     adapter::{
@@ -611,6 +613,12 @@ impl EthereumAdapter {
 
         stream::iter_ok::<_, Error>(block_nums.into_iter().map(move |block_num| {
             let web3 = web3.clone();
+            let rs = record_static!(slog::Level::Critical, self.data_source_name.as_str());
+            logger.log(&slog::Record::new(
+                &rs,
+                &format_args!("{}", block_num),
+                b!("data_source" => &self.data_source_name),
+            ));
             retry(format!("load block ptr {}", block_num), &logger)
                 .no_limit()
                 .timeout_secs(*JSON_RPC_TIMEOUT)
